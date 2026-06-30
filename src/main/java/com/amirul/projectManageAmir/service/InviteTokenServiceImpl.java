@@ -11,13 +11,11 @@ import java.util.UUID;
 
 @Service
 public class InviteTokenServiceImpl implements InvitationService {
-
     @Autowired
     private InviteTokenRepository invitationRepository;
 
     @Autowired
     private EmailService emailService;
-
 
     public void sendInvitation(String email, Long projectId) throws MailsException, MessagingException {
         // Generate unique invitation token
@@ -29,7 +27,6 @@ public class InviteTokenServiceImpl implements InvitationService {
         invitation.setProjectId(projectId);
         invitation.setToken(invitationToken);
         invitationRepository.save(invitation);
-
 
         String invitationLink = "http://localhost:5173/accept_invitation?token=" + invitationToken;
         emailService.sendEmailWithToken(email, invitationLink);

@@ -11,8 +11,8 @@ import java.util.List;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
@@ -29,14 +29,14 @@ public class User {
     @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL)
     private List<Issue> assignedIssues = new ArrayList<>();
 
+    // @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    // private Subscription subscription;
 
-//	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-//	private Subscription subscription;
+    private int projectSize = 0;
 
-    private int projectSize=0;
+    // @JsonIgnore
+    // @ManyToMany(mappedBy = "team")
+    // private List<Project> projects = new ArrayList<>();
+    //
 
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "team")
-//    private List<Project> projects = new ArrayList<>();
-//
 }

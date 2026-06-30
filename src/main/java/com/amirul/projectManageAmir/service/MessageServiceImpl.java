@@ -16,18 +16,19 @@ import java.util.List;
 
 @Service
 public class MessageServiceImpl implements MessageService {
+
     @Autowired
     private MessageRepository messageRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-
     @Autowired
     private ProjectService projectService;
 
     @Override
-    public Message sendMessage(Long senderId, Long projectId, String content) throws UserException, ChatException, ProjectException, ProjectException {
+    public Message sendMessage(Long senderId, Long projectId, String content)
+            throws UserException, ChatException, ProjectException {
         User sender = userRepository.findById(senderId)
                 .orElseThrow(() -> new UserException("User not found with id: " + senderId));
 
@@ -38,14 +39,14 @@ public class MessageServiceImpl implements MessageService {
         message.setSender(sender);
         message.setCreatedAt(LocalDateTime.now());
         message.setChat(chat);
-        Message savedMessage=messageRepository.save(message);
+        Message savedMessage = messageRepository.save(message);
 
         chat.getMessages().add(savedMessage);
         return savedMessage;
     }
 
     @Override
-    public List<Message> getMessagesByProjectId(Long projectId) throws ProjectException, ChatException, ChatException {
+    public List<Message> getMessagesByProjectId(Long projectId) throws ProjectException, ChatException {
         Chat chat = projectService.getChatByProjectId(projectId);
         List<Message> findByChatIdOrderByCreatedAtAsc = messageRepository.findByChatIdOrderByCreatedAtAsc(chat.getId());
         return findByChatIdOrderByCreatedAtAsc;

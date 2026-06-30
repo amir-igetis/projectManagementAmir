@@ -30,61 +30,29 @@ public class ProjectServiceImpl implements ProjectService {
     private UserService userService;
 
     @Override
-    public Project createProject(Project project, Long userId) throws UserException {
-
-        User user = userService.findUserById(userId);
-
-        // Build new project
+    public Project createProject(Project project, Long id) throws UserException {
+        User user = userService.findUserById(id);
         Project createdProject = new Project();
-        createdProject.setName(project.getName());
-        createdProject.setDescription(project.getDescription());
-        createdProject.setCategory(project.getCategory());
-        createdProject.setTags(project.getTags());
-        createdProject.setOwner(user);
 
-        // Add owner to team
+        createdProject.setOwner(user);
+        createdProject.setTags(project.getTags());
+        createdProject.setName(project.getName());
+        createdProject.setCategory(project.getCategory());
+        createdProject.setDescription(project.getDescription());
         createdProject.getTeam().add(user);
 
-        // Save project
-        Project savedProject = projectRepository.save(createdProject);
+        System.out.println(createdProject);
+        Project savedProject = projectRepository.save(project);
 
-        // Create chat
+        savedProject.getTeam().add(user);
+
         Chat chat = new Chat();
         chat.setProject(savedProject);
-
         Chat projectChat = chatService.createChat(chat);
         savedProject.setChat(projectChat);
 
-        return projectRepository.save(savedProject);
+        return savedProject;
     }
-
-
-//    @Override
-//    public Project createProject(Project project, Long id) throws UserException {
-//        User user = userService.findUserById(id);
-//        Project createdProject = new Project();
-//
-//        createdProject.setOwner(user);
-//        createdProject.setTags(project.getTags());
-//        createdProject.setName(project.getName());
-//        createdProject.setCategory(project.getCategory());
-//        createdProject.setDescription(project.getDescription());
-//        createdProject.getTeam().add(user);
-//
-//        System.out.println(createdProject);
-//        Project savedProject = projectRepository.save(project);
-//
-//        savedProject.getTeam().add(user);
-//
-//        Chat chat = new Chat();
-//        chat.setProject(savedProject);
-//        Chat projectChat = chatService.createChat(chat);
-//        savedProject.setChat(projectChat);
-//
-//
-//        return savedProject;
-//    }
-
 
     @Override
     public List<Project> getProjectsByTeam(User user, String category, String tag) throws ProjectException {
@@ -104,7 +72,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         return projects;
     }
-
 
     @Override
     public Project getProjectById(Long projectId) throws ProjectException {
@@ -154,7 +121,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<Project> searchProjects(String keyword, User user) throws ProjectException {
         String partialName = "%" + keyword + "%";
-//			projectRepository.findByPartialNameAndTeamIn(partialName, user);
+        // projectRepository.findByPartialNameAndTeamIn(partialName, user);
         List<Project> list = projectRepository.findByNameContainingAndTeamContains(keyword, user);
         if (list != null) {
             return list;
@@ -165,7 +132,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     @Transactional
     public void addUserToProject(Long projectId, Long userId) throws UserException, ProjectException {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectException("project not found"));
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ProjectException("project not found"));
         User user = userService.findUserById(userId);
 
         if (!project.getTeam().contains(user)) {
@@ -173,7 +141,6 @@ public class ProjectServiceImpl implements ProjectService {
             project.getTeam().add(user);
             projectRepository.save(project);
         }
-
 
     }
 
@@ -192,26 +159,19 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public Chat getChatByProjectId(Long projectId) throws ProjectException, ChatException {
-        Project project = projectRepository.findById(projectId).orElseThrow(() -> new ProjectException("Project not found"));
-        if (project != null) return project.getChat();
-
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new ProjectException("Project not found"));
+        if (project != null)
+            return project.getChat();
 
         throw new ChatException("no chats found");
 
     }
 
-    @Override
-    public List<Project> getProjectsByOwner(User user) throws ProjectException {
-        List<Project>  res = projectRepository.findByOwner(user);
-        if (res == null)
-            throw new ProjectException("This owner has no projects: " + user.getId());
-        else
-            return res;
-    }
-
     public List<User> getUsersByProjectId(Long projectId) throws ProjectException {
         Project project = projectRepository.findById(projectId).orElse(null);
-        if (project != null) return project.getChat().getUsers();
+        if (project != null)
+            return project.getChat().getUsers();
 
         throw new ProjectException("no project found with id " + projectId);
     }

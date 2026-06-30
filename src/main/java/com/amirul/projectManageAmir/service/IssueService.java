@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IssueService {
-
-    List<Issue> getAllIssues() throws IssueException;
+    // List<Issue> getAllIssues() throws IssueException;
 
     Optional<Issue> getIssueById(Long issueId) throws IssueException;
 
@@ -20,9 +19,10 @@ public interface IssueService {
 
     Issue createIssue(IssueRequest issue, Long userid) throws UserException, IssueException, ProjectException;
 
-    Optional<Issue> updateIssue(Long issueid,IssueRequest updatedIssue,Long userid ) throws IssueException, UserException, ProjectException;
+    Optional<Issue> updateIssue(Long issueid, IssueRequest updatedIssue, Long userid)
+            throws IssueException, UserException, ProjectException;
 
-    String deleteIssue(Long issueId,Long userid) throws UserException, IssueException;
+    String deleteIssue(Long issueId, Long userid) throws UserException, IssueException;
 
     List<Issue> getIssuesByAssigneeId(Long assigneeId) throws IssueException;
 
@@ -33,6 +33,5 @@ public interface IssueService {
     Issue addUserToIssue(Long issueId, Long userId) throws UserException, IssueException;
 
     Issue updateStatus(Long issueId, String status) throws IssueException;
-
 
 }

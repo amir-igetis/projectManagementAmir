@@ -28,10 +28,10 @@ public class ResetPasswordController {
 
         PasswordResetToken resetToken = passwordResetTokenService.findByToken(req.getToken());
 
-        if (resetToken == null ) {
+        if (resetToken == null) {
             throw new UserException("token is required...");
         }
-        if(resetToken.isExpired()) {
+        if (resetToken.isExpired()) {
             passwordResetTokenService.delete(resetToken);
             throw new UserException("token get expired...");
 
@@ -44,7 +44,7 @@ public class ResetPasswordController {
         // Delete the token
         passwordResetTokenService.delete(resetToken);
 
-        ApiResponse res=new ApiResponse();
+        ApiResponse res = new ApiResponse();
         res.setMessage("Password updated successfully.");
         res.setStatus(true);
 
@@ -62,7 +62,7 @@ public class ResetPasswordController {
 
         userService.sendPasswordResetEmail(user);
 
-        ApiResponse res=new ApiResponse();
+        ApiResponse res = new ApiResponse();
         res.setMessage("Password reset email sent successfully.");
         res.setStatus(true);
 
@@ -70,5 +70,3 @@ public class ResetPasswordController {
     }
 
 }
-
-

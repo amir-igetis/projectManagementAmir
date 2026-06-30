@@ -8,7 +8,7 @@ import com.amirul.projectManageAmir.repository.SubscriptionRepository;
 import com.amirul.projectManageAmir.repository.UserRepository;
 import com.amirul.projectManageAmir.request.LoginRequest;
 import com.amirul.projectManageAmir.response.AuthResponse;
-import com.amirul.projectManageAmir.service.CustomUserServiceImplementation;
+import com.amirul.projectManageAmir.service.CustomeUserServiceImplementation;
 import com.amirul.projectManageAmir.service.SubscriptionService;
 import com.amirul.projectManageAmir.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -35,7 +34,7 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
-    private CustomUserServiceImplementation customUserDetails;
+    private CustomeUserServiceImplementation customUserDetails;
 
     @Autowired
     private UserService userService;
@@ -46,8 +45,6 @@ public class AuthController {
     @Autowired
     private SubscriptionRepository subscriptionRepository;
 
-
-
     @PostMapping("/signup")
     public ResponseEntity<AuthResponse> createUserHandler(
             @RequestBody User user) throws UserException {
@@ -55,11 +52,11 @@ public class AuthController {
         String email = user.getEmail();
         String password = user.getPassword();
         String fullName = user.getFullName();
-        String role=user.getRole();
+        String role = user.getRole();
 
         User isEmailExist = userRepository.findByEmail(email);
 
-        if (isEmailExist!=null) {
+        if (isEmailExist != null) {
 
             throw new UserException("Email Is Already Used With Another Account");
         }
@@ -75,7 +72,7 @@ public class AuthController {
 
         Subscription subscription = subscriptionService.createSubscription(savedUser);
 
-//		subscriptionRepository.save(subscription);
+        // subscriptionRepository.save(subscription);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(email, password);
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -126,6 +123,4 @@ public class AuthController {
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 
-
 }
-

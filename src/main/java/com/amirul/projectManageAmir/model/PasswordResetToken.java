@@ -7,24 +7,20 @@ import java.util.Date;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 @RequiredArgsConstructor
+@AllArgsConstructor
 public class PasswordResetToken {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
 
-
     private @NonNull String token;
 
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private @NonNull User user;
-
-
-
 
     private @NonNull Date expiryDate;
 

@@ -28,4 +28,5 @@ public class IssueDTO {
     // Exclude assignee during serialization
 
     private User assignee;
+
 }

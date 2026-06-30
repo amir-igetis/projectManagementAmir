@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Chat {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,15 +27,12 @@ public class Chat {
     private Project project;
 
     @JsonIgnore
-    @OneToMany(mappedBy ="chat", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Message> messages; // Renamed from Message to ChatMessage
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Message> messages;
 
     // Users participating in the chat
     @ManyToMany
-    @JoinTable(
-            name = "chat_users",
-            joinColumns = @JoinColumn(name = "chat_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private List<User> users = new ArrayList<>();
+    @JoinTable(name = "chat_users", joinColumns = @JoinColumn(name = "chat_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users = new ArrayList<User>();
+
 }

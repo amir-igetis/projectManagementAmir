@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,4 +28,5 @@ public class Message {
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private User sender;
+
 }

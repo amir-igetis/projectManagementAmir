@@ -14,13 +14,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserServiceImplementation implements UserDetailsService {
+public class CustomeUserServiceImplementation implements UserDetailsService {
 
-    @Autowired
     private UserRepository userRepository;
 
-    public CustomUserServiceImplementation(UserRepository userRepository) {
-        this.userRepository=userRepository;
+    public CustomeUserServiceImplementation(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -28,22 +27,22 @@ public class CustomUserServiceImplementation implements UserDetailsService {
 
         User user = userRepository.findByEmail(username);
 
-        if(user==null) {
+        if (user == null) {
 
-            throw new UsernameNotFoundException("user not found with email  - "+username);
+            throw new UsernameNotFoundException("user not found with email  - " + username);
         }
 
-        String role=user.getRole();
+        String role = user.getRole();
 
-        if(role==null) role="CUSTOMER";
+        if (role == null)
+            role = "CUSTOMER";
 
-        List<GrantedAuthority> authorities=new ArrayList<>();
+        List<GrantedAuthority> authorities = new ArrayList<>();
 
         authorities.add(new SimpleGrantedAuthority(role));
 
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),user.getPassword(),authorities);
+                user.getEmail(), user.getPassword(), authorities);
     }
-
 
 }

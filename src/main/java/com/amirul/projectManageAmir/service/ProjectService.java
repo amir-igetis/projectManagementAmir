@@ -10,17 +10,15 @@ import com.amirul.projectManageAmir.model.User;
 import java.util.List;
 
 public interface ProjectService {
-
     Project createProject(Project project, Long userId) throws UserException;
 
-//	List<Project> getProjectsByOwner(User owner) throws ProjectException;
+    // List<Project> getProjectsByOwner(User owner) throws ProjectException;
 
     List<Project> getProjectsByTeam(User user, String category, String tag) throws ProjectException;
 
-
     Project getProjectById(Long projectId) throws ProjectException;
 
-    String deleteProject(Long projectId,Long userId) throws UserException;
+    String deleteProject(Long projectId, Long userId) throws UserException;
 
     Project updateProject(Project updatedProject, Long id) throws ProjectException;
 
@@ -32,5 +30,4 @@ public interface ProjectService {
 
     Chat getChatByProjectId(Long projectId) throws ProjectException, ChatException;
 
-    List<Project> getProjectsByOwner(User user) throws ProjectException;
 }

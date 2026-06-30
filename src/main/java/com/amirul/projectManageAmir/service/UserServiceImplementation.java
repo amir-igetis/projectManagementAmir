@@ -20,7 +20,6 @@ import java.util.UUID;
 
 @Service
 public class UserServiceImplementation implements UserService {
-
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -30,8 +29,8 @@ public class UserServiceImplementation implements UserService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-//	@Autowired
-//	private ProjectService projectService;
+    // @Autowired
+    // private ProjectService projectService;
 
     @Override
     public User findUserProfileByJwt(String jwt) throws UserException, ProjectException {
@@ -39,8 +38,8 @@ public class UserServiceImplementation implements UserService {
 
         User user = userRepository.findByEmail(email);
 
-//		int projectSize=projectService.getProjectsByTeam(user,null,null).size();
-//		user.setProjectSize(projectSize);
+        // int projectSize=projectService.getProjectsByTeam(user,null,null).size();
+        // user.setProjectSize(projectSize);
 
         userRepository.save(user);
 
@@ -75,8 +74,8 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public User updateUsersProjectSize(User user, int number) {
-        user.setProjectSize(user.getProjectSize()+number);
-        if(user.getProjectSize()==-1){
+        user.setProjectSize(user.getProjectSize() + number);
+        if (user.getProjectSize() == -1) {
             return user;
         }
         return userRepository.save(user);
@@ -127,4 +126,5 @@ public class UserServiceImplementation implements UserService {
         cal.add(Calendar.MINUTE, 10);
         return cal.getTime();
     }
+
 }

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Invitation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

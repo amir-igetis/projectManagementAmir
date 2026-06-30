@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class HomeController {
 
     @GetMapping("")
-    public ResponseEntity<ApiResponse> homeController(){
-        ApiResponse res=new ApiResponse("welcome to user service",true);
+    public ResponseEntity<ApiResponse> homeController() {
+        ApiResponse res = new ApiResponse("welcome to user service", true);
         return new ResponseEntity<ApiResponse>(res, HttpStatus.ACCEPTED);
     }
 

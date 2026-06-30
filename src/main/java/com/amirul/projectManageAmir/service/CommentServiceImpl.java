@@ -18,17 +18,16 @@ import java.util.Optional;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    private final IssueRepository issueRepository;
-    private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
+    private CommentRepository commentRepository;
+    private IssueRepository issueRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public CommentServiceImpl(IssueRepository issueRepository,
-                              UserRepository userRepository,
-                              CommentRepository commentRepository) {
+    public CommentServiceImpl(CommentRepository commentRepository, IssueRepository issueRepository,
+            UserRepository userRepository) {
+        this.commentRepository = commentRepository;
         this.issueRepository = issueRepository;
         this.userRepository = userRepository;
-        this.commentRepository = commentRepository;
     }
 
     @Override
@@ -79,11 +78,11 @@ public class CommentServiceImpl implements CommentService {
         } else {
             throw new UserException("User does not have permission to delete this comment!");
         }
+
     }
 
     @Override
     public List<Comment> findCommentByIssueId(Long issueId) {
-
         return commentRepository.findByIssueId(issueId);
     }
 }

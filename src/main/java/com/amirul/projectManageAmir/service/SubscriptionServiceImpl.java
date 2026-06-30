@@ -27,7 +27,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         Subscription subscription = new Subscription();
         subscription.setUser(user);
         subscription.setSubscriptionStartDate(LocalDate.now());
-        subscription.setSubscriptionEndDate(LocalDate.now().plusMonths(12)); // Assuming one month validity for simplicity
+        subscription.setSubscriptionEndDate(LocalDate.now().plusMonths(12)); // Assuming one month validity for
+                                                                             // simplicity
         subscription.setValid(true);
         subscription.setPlanType(PlanType.FREE);
         subscription.setSubscriptiontype(SubscriptionType.FREE);
@@ -74,12 +75,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         }
         LocalDate endDate = subscription.getSubscriptionEndDate();
         LocalDate currentDate = LocalDate.now();
-//        System.out.println( "--------- "+endDate+"----"+currentDate);
-//        System.out.println( endDate.isAfter(currentDate) );
-//        System.out.println( endDate.isEqual(currentDate));
+        // System.out.println( "--------- "+endDate+"----"+currentDate);
+        // System.out.println( endDate.isAfter(currentDate) );
+        // System.out.println( endDate.isEqual(currentDate));
 
         return endDate.isAfter(currentDate) || endDate.isEqual(currentDate);
-
 
     }
 }

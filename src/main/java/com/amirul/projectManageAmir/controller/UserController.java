@@ -6,14 +6,10 @@ import com.amirul.projectManageAmir.model.User;
 import com.amirul.projectManageAmir.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class UserController {
-
 
     private UserService userService;
 
@@ -23,7 +19,7 @@ public class UserController {
 
     @GetMapping("/api/users/profile")
     public ResponseEntity<User> getUserProfileHandler(
-            @RequestHeader("Authorization") String jwt) throws UserException, ProjectException, ProjectException, UserException {
+            @RequestHeader("Authorization") String jwt) throws UserException, ProjectException {
 
         User user = userService.findUserProfileByJwt(jwt);
         user.setPassword(null);
@@ -43,4 +39,3 @@ public class UserController {
     }
 
 }
-

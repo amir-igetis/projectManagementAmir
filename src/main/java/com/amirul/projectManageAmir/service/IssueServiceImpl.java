@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class IssueServiceImpl implements IssueService{
+public class IssueServiceImpl implements IssueService {
 
     @Autowired
     private IssueRepository issueRepository;
@@ -27,21 +27,14 @@ public class IssueServiceImpl implements IssueService{
     @Autowired
     private NotificationServiceImpl notificationServiceImpl;
 
-//    private final IssueRepository issueRepository;
-//
-//    public IssueServiceImpl(IssueRepository issueRepository) {
-//        this.issueRepository = issueRepository;
-//    }
-
-    @Override
-    public List<Issue> getAllIssues() throws IssueException {
-        List<Issue> issues = issueRepository.findAll();
-        if (issues!= null){
-            return issues;
-        }
-
-        throw new IssueException("No issues found");
-    }
+    // @Override
+    // public List<Issue> getAllIssues() throws IssueException {
+    // List<Issue> issues = issueRepository.findAll();
+    // if(issues!=null) {
+    // return issues;
+    // }
+    // throw new IssueException("No issues found");
+    // }
 
     @Override
     public Optional<Issue> getIssueById(Long issueId) throws IssueException {
@@ -58,7 +51,6 @@ public class IssueServiceImpl implements IssueService{
         return issueRepository.findByProjectId(projectId);
     }
 
-
     @Override
     public Issue createIssue(IssueRequest issueRequest, Long userId)
             throws UserException, IssueException, ProjectException {
@@ -66,7 +58,7 @@ public class IssueServiceImpl implements IssueService{
 
         // Check if the project exists
         Project project = projectService.getProjectById(issueRequest.getProjectId());
-        System.out.println("projid---------->"+issueRequest.getProjectId());
+        System.out.println("projid---------->" + issueRequest.getProjectId());
         if (project == null) {
             throw new IssueException("Project not found with ID: " + issueRequest.getProjectId());
         }
@@ -79,8 +71,6 @@ public class IssueServiceImpl implements IssueService{
         issue.setProjectID(issueRequest.getProjectId());
         issue.setPriority(issueRequest.getPriority());
         issue.setDueDate(issueRequest.getDueDate());
-
-
 
         // Set the project for the issue
         issue.setProject(project);
@@ -108,7 +98,6 @@ public class IssueServiceImpl implements IssueService{
             }
 
             Issue issueToUpdate = existingIssue.get();
-
 
             if (updatedIssue.getDescription() != null) {
                 issueToUpdate.setDescription(updatedIssue.getDescription());
@@ -185,24 +174,24 @@ public class IssueServiceImpl implements IssueService{
     @Override
     public Issue addUserToIssue(Long issueId, Long userId) throws UserException, IssueException {
         User user = userService.findUserById(userId);
-        Optional<Issue> issue=getIssueById(issueId);
+        Optional<Issue> issue = getIssueById(issueId);
 
-        if(issue.isEmpty())throw new IssueException("issue not exist");
+        if (issue.isEmpty())
+            throw new IssueException("issue not exist");
 
         issue.get().setAssignee(user);
-        notifyAssignee(user.getEmail(),"New Issue Assigned To You","New Issue Assign To You");
+        notifyAssignee(user.getEmail(), "New Issue Assigned To You", "New Issue Assign To You");
         return issueRepository.save(issue.get());
-
 
     }
 
     @Override
     public Issue updateStatus(Long issueId, String status) throws IssueException {
-        Optional<Issue> optionalIssue=issueRepository.findById(issueId);
-        if(optionalIssue.isEmpty()){
+        Optional<Issue> optionalIssue = issueRepository.findById(issueId);
+        if (optionalIssue.isEmpty()) {
             throw new IssueException("issue not found");
         }
-        Issue issue=optionalIssue.get();
+        Issue issue = optionalIssue.get();
         issue.setStatus(status);
 
         return issueRepository.save(issue);
@@ -212,4 +201,5 @@ public class IssueServiceImpl implements IssueService{
         System.out.println("IssueServiceImpl.notifyAssignee()");
         notificationServiceImpl.sendNotification(email, subject, body);
     }
+
 }

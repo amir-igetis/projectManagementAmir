@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorDetails {
+public class ErrorDetais {
+
     private String error;
     private String message;
     private LocalDateTime timestamp;
+
 }

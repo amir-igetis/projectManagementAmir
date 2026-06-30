@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PasswordResetTokenServiceImplementation implements PasswordResetTokenService {
-
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
@@ -22,4 +21,5 @@ public class PasswordResetTokenServiceImplementation implements PasswordResetTok
         passwordResetTokenRepository.delete(resetToken);
 
     }
+
 }

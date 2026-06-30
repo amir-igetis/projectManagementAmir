@@ -5,3 +5,4 @@ public enum PlanType {
     ANNUALLY,
     FREE
 }
+

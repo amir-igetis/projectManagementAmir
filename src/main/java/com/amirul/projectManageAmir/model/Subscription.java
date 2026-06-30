@@ -27,4 +27,5 @@ public class Subscription {
 
     @OneToOne
     private User user;
+
 }
